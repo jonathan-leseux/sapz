@@ -1,6 +1,5 @@
 package tcc.sagsa.services;
 
-//import tcc.sagsa.models.Usuario
 import tcc.sagsa.models.*;
 import tcc.sagsa.models.dtos.SituacaoAprendizagemDTO;
 import tcc.sagsa.repositories.*;

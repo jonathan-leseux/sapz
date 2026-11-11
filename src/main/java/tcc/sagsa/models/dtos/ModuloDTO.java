@@ -1,52 +1,45 @@
 package tcc.sagsa.models.dtos;
 
-import tcc.sagsa.models.PlanoCurso;
+import tcc.sagsa.models.Modulo;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PlanoCursoDTO {
+public class ModuloDTO {
 
     private Long id;
 
-    @NotNull(message = "ID do curso é obrigatório")
-    private Long cursoId;
+    @NotNull(message = "ID do plano de curso é obrigatório")
+    private Long planoCursoId;
 
-    private String cursoNome;
+    @NotBlank(message = "Nome do módulo é obrigatório")
+    private String nome;
 
-    @NotBlank(message = "Código do plano é obrigatório")
-    private String codigoPlano;
+    @NotBlank(message = "Tipo do módulo é obrigatório")
+    private String tipoModulo;
 
-    private String versao = "1.0";
+    private Integer ordem = 1;
 
-    @NotNull(message = "Carga horária total é obrigatória")
+    @NotNull(message = "Carga horária é obrigatória")
     @Positive(message = "Carga horária deve ser positiva")
-    private Integer cargaHorariaTotal;
+    private Integer cargaHoraria;
 
-    private LocalDate dataAprovacao;
-    private Boolean ativo = true;
-
-    public PlanoCursoDTO(PlanoCurso entity) {
+    public ModuloDTO(Modulo entity) {
         this.id = entity.getId();
-        this.codigoPlano = entity.getCodigoPlano();
-        this.versao = entity.getVersao();
-        this.cargaHorariaTotal = entity.getCargaHorariaTotal();
-        this.dataAprovacao = entity.getDataAprovacao();
-        this.ativo = entity.getAtivo();
-        if (entity.getCurso() != null) {
-            this.cursoId = entity.getCurso().getId();
-            this.cursoNome = entity.getCurso().getNome();
+        this.nome = entity.getNome();
+        this.tipoModulo = entity.getTipoModulo();
+        this.ordem = entity.getOrdem();
+        this.cargaHoraria = entity.getCargaHoraria();
+        if (entity.getPlanoCurso() != null) {
+            this.planoCursoId = entity.getPlanoCurso().getId();
         }
     }
 }
-
 
 
