@@ -6,7 +6,7 @@ import tcc.sagsa.models.dtos.UsuarioCreateDTO;
 import tcc.sagsa.models.dtos.UsuarioResponseDTO;
 import tcc.sagsa.repositories.PerfilRepository;
 import tcc.sagsa.repositories.UsuarioRepository;
-import tcc.sagsa.exceptions.ObjectNotFoundException;
+import tcc.sagsa.services.exceptions.ObjectNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
