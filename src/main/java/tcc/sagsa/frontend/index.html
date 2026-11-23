@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Sistema SAPZ SENAI</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <span class="badge-senai">SENAI</span>
+        <h1>Sistema SAPZ</h1>
+        <p style="font-size: 0.85rem; opacity: 0.85; margin-top: 4px;">
+          Gestão de Situações de Aprendizagem
+        </p>
+      </div>
+
+      <div class="login-body">
+        <div id="login-erro" class="alert-error"></div>
+
+        <form id="form-login">
+          <div class="form-group">
+            <label for="email">E-mail Institucional</label>
+            <input type="email" id="email" placeholder="instrutor@senai.br" required />
+          </div>
+
+          <div class="form-group">
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" placeholder="••••••••" required />
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">
+            Entrar no Sistema
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script>
+    if (localStorage.getItem('@sapz:token')) {
+      window.location.href = 'dashboard.html';
+    }
+
+    document.getElementById('form-login').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const erroBox = document.getElementById('login-erro');
+      erroBox.style.display = 'none';
+
+      const email = document.getElementById('email').value;
+      const senha = document.getElementById('senha').value;
+
+      try {
+        const data = await apiFetch('/auth/login', {
+          method: 'POST',
+          body: JSON.stringify({ email, senha }),
+        });
+
+        localStorage.setItem('@sapz:token', data.token);
+        localStorage.setItem('@sapz:user', JSON.stringify(data.usuario || { email }));
+        window.location.href = 'dashboard.html';
+      } catch (err) {
+        erroBox.textContent = 'E-mail ou senha inválidos.';
+        erroBox.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

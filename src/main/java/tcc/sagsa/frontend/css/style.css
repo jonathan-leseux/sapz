@@ -1,0 +1,248 @@
+/* css/style.css */
+:root {
+    --senai-azul: #004C99;
+    --senai-azul-escuro: #003670;
+    --senai-vermelho: #E30613;
+    --fundo: #f1f5f9;
+    --texto: #1e293b;
+    --borda: #cbd5e1;
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  body {
+    background-color: var(--fundo);
+    color: var(--texto);
+  }
+  
+  /* Login */
+  .login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  
+  .login-card {
+    background: #fff;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .login-header {
+    background: var(--senai-azul);
+    color: #fff;
+    text-align: center;
+    padding: 2rem 1.5rem;
+  }
+  
+  .badge-senai {
+    display: inline-block;
+    background: var(--senai-vermelho);
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+  }
+  
+  .login-body {
+    padding: 2rem;
+  }
+  
+  /* Layout Dashboard */
+  .app-layout {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  .sidebar {
+    width: 260px;
+    background: var(--senai-azul);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .sidebar-nav {
+    flex: 1;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .nav-btn {
+    background: transparent;
+    border: none;
+    color: #dbeafe;
+    text-align: left;
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  
+  .nav-btn:hover,
+  .nav-btn.active {
+    background: var(--senai-azul-escuro);
+    color: #fff;
+    border-left: 4px solid var(--senai-vermelho);
+  }
+  
+  .sidebar-footer {
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1200px;
+  }
+  
+  /* Formulários e Botões */
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #475569;
+    margin-bottom: 0.35rem;
+  }
+  
+  input, select, textarea {
+    width: 100%;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid var(--borda);
+    border-radius: 6px;
+    font-size: 0.95rem;
+  }
+  
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--senai-azul);
+  }
+  
+  .btn {
+    padding: 0.7rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  
+  .btn-primary {
+    background: var(--senai-azul);
+    color: #fff;
+  }
+  
+  .btn-primary:hover {
+    background: var(--senai-azul-escuro);
+  }
+  
+  .btn-danger {
+    background: var(--senai-vermelho);
+    color: #fff;
+    width: 100%;
+  }
+  
+  /* Cards e Tabelas */
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+  }
+  
+  .grid-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .stat-box {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border-left: 5px solid var(--senai-azul);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+  
+  .stat-box h3 {
+    font-size: 0.85rem;
+    color: #64748b;
+  }
+  
+  .stat-box p {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-top: 0.3rem;
+  }
+  
+  .grid-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  th, td {
+    padding: 0.85rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 0.9rem;
+  }
+  
+  th {
+    background: #f8fafc;
+    color: #475569;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+  }
+  
+  .alert-error {
+    background: #fee2e2;
+    color: #b91c1c;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    display: none;
+  }
+  
+  .hidden {
+    display: none;
+  }
