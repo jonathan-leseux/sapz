@@ -16,8 +16,10 @@
 
       <nav class="sidebar-nav">
         <button class="nav-btn active" onclick="mostrarSecao('secao-dashboard', this)">Dashboard</button>
-        <button class="nav-btn" onclick="mostrarSecao('secao-escolas', this)">Escolas / Unidades</button>
-        <button class="nav-btn" onclick="mostrarSecao('secao-sapz', this)">Situações de Aprendizagem</button>
+        <button class="nav-btn admin-only" onclick="mostrarSecao('secao-escolas', this)">1. Escolas / Unidades</button>
+        <button class="nav-btn admin-only" onclick="mostrarSecao('secao-cursos', this)">2. Cursos e UCs</button>
+        <button class="nav-btn admin-only" onclick="mostrarSecao('secao-turmas', this)">3. Turmas</button>
+        <button class="nav-btn" onclick="mostrarSecao('secao-sapz', this)">4. Situações de Aprendizagem</button>
       </nav>
 
       <div class="sidebar-footer">
@@ -53,7 +55,6 @@
       <!-- SEÇÃO 2: ESCOLAS -->
       <section id="secao-escolas" class="hidden">
         <h2 style="margin-bottom: 1rem;">Unidades Escolares SENAI</h2>
-
         <div class="card">
           <form id="form-escola" class="grid-form">
             <input type="hidden" id="escola-id" />
@@ -78,7 +79,6 @@
             </div>
           </form>
         </div>
-
         <div class="card">
           <table>
             <thead>
@@ -94,10 +94,134 @@
         </div>
       </section>
 
-      <!-- SEÇÃO 3: SITUAÇÕES DE APRENDIZAGEM -->
+      <!-- SEÇÃO 3: CURSOS E UNIDADES CURRICULARES -->
+      <section id="secao-cursos" class="hidden">
+        <h2 style="margin-bottom: 1rem;">Cursos e Unidades Curriculares (Administração)</h2>
+
+        <div class="card">
+          <h3 style="margin-bottom: 1rem; font-size: 1rem;">Cadastrar Curso</h3>
+          <form id="form-curso" class="grid-form">
+            <div class="form-group">
+              <label>Nome do Curso</label>
+              <input type="text" id="curso-nome" placeholder="Ex: Técnico em Desenvolvimento de Sistemas" required />
+            </div>
+            <div class="form-group">
+              <label>Modalidade</label>
+              <select id="curso-modalidade">
+                <option value="TECNICO">Técnico</option>
+                <option value="APRENDIZAGEM">Aprendizagem Industrial</option>
+                <option value="QUALIFICACAO">Qualificação Profissional</option>
+                <option value="SUPERIOR">Superior / Tecnológico</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Carga Horária Total (h)</label>
+              <input type="number" id="curso-ch" value="1200" min="1" required />
+            </div>
+            <div class="form-group">
+              <label>Escola / Unidade</label>
+              <select id="curso-escola" required></select>
+            </div>
+            <div class="form-group" style="display: flex; align-items: flex-end;">
+              <button type="submit" class="btn btn-primary" style="width: 100%;">Salvar Curso</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3 style="margin-bottom: 1rem; font-size: 1rem;">Cadastrar Unidade Curricular (UC)</h3>
+          <form id="form-uc" class="grid-form">
+            <div class="form-group">
+              <label>Nome da Unidade Curricular</label>
+              <input type="text" id="uc-nome" placeholder="Ex: Programação Back-End" required />
+            </div>
+            <div class="form-group">
+              <label>Carga Horária UC (h)</label>
+              <input type="number" id="uc-ch" value="80" min="1" required />
+            </div>
+            <div class="form-group">
+              <label>Curso Vinculado</label>
+              <select id="uc-curso" required></select>
+            </div>
+            <div class="form-group" style="display: flex; align-items: flex-end;">
+              <button type="submit" class="btn btn-primary" style="width: 100%;">Salvar UC</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <table>
+            <thead>
+              <tr>
+                <th>Curso</th>
+                <th>Modalidade</th>
+                <th>Carga Horária</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-cursos"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SEÇÃO 4: TURMAS -->
+      <section id="secao-turmas" class="hidden">
+        <h2 style="margin-bottom: 1rem;">Gestão de Turmas (Administração)</h2>
+
+        <div class="card">
+          <form id="form-turma" class="grid-form">
+            <div class="form-group">
+              <label>Código / Nome da Turma</label>
+              <input type="text" id="turma-codigo" placeholder="Ex: TDS-2026-1N" required />
+            </div>
+            <div class="form-group">
+              <label>Turno</label>
+              <select id="turma-turno">
+                <option value="MANHA">Manhã</option>
+                <option value="TARDE">Tarde</option>
+                <option value="NOITE">Noite</option>
+                <option value="INTEGRAL">Integral</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Curso</label>
+              <select id="turma-curso" required></select>
+            </div>
+            <div class="form-group">
+              <label>Escola / Unidade</label>
+              <select id="turma-escola" required></select>
+            </div>
+            <div class="form-group">
+              <label>Data Início</label>
+              <input type="date" id="turma-inicio" required />
+            </div>
+            <div class="form-group">
+              <label>Data Fim</label>
+              <input type="date" id="turma-fim" required />
+            </div>
+            <div class="form-group" style="display: flex; align-items: flex-end;">
+              <button type="submit" class="btn btn-primary" style="width: 100%;">Cadastrar Turma</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <table>
+            <thead>
+              <tr>
+                <th>Código / Turma</th>
+                <th>Turno</th>
+                <th>Início</th>
+                <th>Término</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-turmas"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SEÇÃO 5: SITUAÇÕES DE APRENDIZAGEM -->
       <section id="secao-sapz" class="hidden">
         <h2 style="margin-bottom: 1rem;">Situações de Aprendizagem (SAPZ)</h2>
-
         <div class="card">
           <form id="form-sapz">
             <div class="grid-form">

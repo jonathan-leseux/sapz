@@ -1,13 +1,16 @@
+// src/main/java/tcc/sagsa/security/UserDetailsServiceImpl.java
 package tcc.sagsa.services;
 
-
-import tcc.sagsa.models.Usuario;
-import tcc.sagsa.repositories.UsuarioRepository;
-import tcc.sagsa.security.UsuarioSpringSecurity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import tcc.sagsa.models.Usuario;
+import tcc.sagsa.repositories.UsuarioRepository;
+
+import java.util.Collections;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -21,8 +24,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado com e-mail: " + email));
-        return new UsuarioSpringSecurity(usuario);
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado com o e-mail: " + email));
+
+        String role = usuario.getPerfil() != null
+                ? "ROLE_" + usuario.getPerfil().getNome().toUpperCase()
+                : "ROLE_INSTRUTOR";
+
+        boolean ativo = usuario.getAtivo() == null || usuario.getAtivo();
+
+        return new User(
+                usuario.getEmail(),
+                usuario.getSenha(),
+                ativo,
+                true,
+                true,
+                true,
+                Collections.singletonList(new SimpleGrantedAuthority(role))
+        );
     }
 }
-

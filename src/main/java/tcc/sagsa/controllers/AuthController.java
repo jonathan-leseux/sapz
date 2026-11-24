@@ -1,38 +1,55 @@
+// src/main/java/tcc/sagsa/controllers/AuthController.java
 package tcc.sagsa.controllers;
 
-import tcc.sagsa.models.dtos.AuthDTO;
-import tcc.sagsa.security.JWTUtil;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import tcc.sagsa.models.Usuario;
+import tcc.sagsa.models.dtos.LoginRequestDTO;
+import tcc.sagsa.models.dtos.LoginResponseDTO;
+import tcc.sagsa.models.dtos.UsuarioResponseDTO;
+import tcc.sagsa.repositories.UsuarioRepository;
+import tcc.sagsa.security.JWTService;
+import tcc.sagsa.services.UserDetailsServiceImpl;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-    private final JWTUtil jwtUtil;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final JWTService jwtService;
+    private final UsuarioRepository usuarioRepository;
 
-    public AuthController(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
+    public AuthController(AuthenticationManager authenticationManager,
+                          UserDetailsServiceImpl userDetailsService,
+                          JWTService jwtService,
+                          UsuarioRepository usuarioRepository) {
         this.authenticationManager = authenticationManager;
-        this.jwtUtil = jwtUtil;
+        this.userDetailsService = userDetailsService;
+        this.jwtService = jwtService;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthDTO.TokenResponse> login(@Valid @RequestBody AuthDTO.LoginRequest request) {
-        Authentication authentication = authenticationManager.authenticate(
+    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO request) {
+        authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getSenha())
         );
 
-        String role = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .findFirst().orElse("ROLE_INSTRUTOR");
+        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
+        String jwtToken = jwtService.generateToken(userDetails);
 
-        String token = jwtUtil.generateToken(request.getEmail(), role);
-        return ResponseEntity.ok(new AuthDTO.TokenResponse(token, request.getEmail(), role));
+        Usuario usuario = usuarioRepository.findByEmail(request.getEmail()).orElseThrow();
+
+        LoginResponseDTO response = LoginResponseDTO.builder()
+                .token(jwtToken)
+                .usuario(new UsuarioResponseDTO(usuario))
+                .build();
+
+        return ResponseEntity.ok(response);
     }
 }
